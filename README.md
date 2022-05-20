@@ -25,6 +25,7 @@
     - [Restauration](#restauration)
 - [Mise à jour de Baïkal](#mise-à-jour-de-baïkal)
 - [Sécurité](#améliorer-la-sécurité-du-serveur)
+- [Questions et contributions](questions-et-contributions)
 
 ---
 
