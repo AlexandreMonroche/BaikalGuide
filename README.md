@@ -15,9 +15,9 @@
     - [Baïkal](#télécharger-baïkal)
 - [Configuration](#configuration)
     - [Base de données](#configuration-de-mariadb)
-    - [Serveur web](#configuration-d'apache)
+    - [Serveur web](#configuration-dapache)
     - [Baïkal](#configurer-baïkal)
-- [Utilisation](#tout-est-prêt-!)
+- [Utilisation](#utilisation)
     - [iOS](#connecter-un-client-ios)
 - [Sauvegarde de la base de données](#sauvegarde-de-la-base-de-données)
     - [Sauvegarde automatique](#automatiquement)
@@ -109,7 +109,7 @@ cd /srv
 
 Aller à [github.com/sabre-io/Baikal/releases/latest](https://github.com/sabre-io/Baikal/releases/latest) et télécharger la dernière version de l'archive ZIP.
 
-![Latest version](images\Baïkal\latest_version.png "Latest version")
+![Latest version](images/Baïkal/latest_version.png "Latest version")
 
 #### Téléchargement en ligne de commande pour la version 0.9.2
 ```bash
@@ -275,29 +275,30 @@ Saisie d'un mot de passe d'administration
 
 Connection à la base de donnée avec l'utilisateur baikal
 
-![Connection base de donnée](images\Baïkal\bdd.png "Connection base de donnée (depuis le guide allemand)")
+![Connection base de donnée](images/Baïkal/bdd.png "Connection base de donnée (depuis le guide allemand)")
 
 > On utilise ici l'identifiant et le mot de passe de l'utilisateur **mysql** `baikal` saisis dans [cette partie](#configuration-de-mariadb).
 
-## Tout est prêt !
+### Tout est prêt !
+## Utilisation
 
 On peut maintenant se connecter avec le compte `admin` sur la page d'administration `https://cal.domaine.fr/admin` ou en cliquant sur le bouton `Login`
 
-![Connection admin](images\Baïkal\login.png "Connection admin (depuis le guide allemand)")
+![Connection admin](images/Baïkal/login.png "Connection admin (depuis le guide allemand)")
 
 > On utilise ici l'identifiant et le mot de passe d'administration saisis dans [cette partie](#configurer-baïkal).
 
 Panneau de contôle
 
-![Panneau de contrôle](images\Baïkal\dashboard.png "Panneau de contrôle (depuis le guide allemand)")
+![Panneau de contrôle](images/Baïkal/dashboard.png "Panneau de contrôle (depuis le guide allemand)")
 
 Accès à la liste des utilisateurs
 
-![Liste des utilisateurs](images\Baïkal\users.png "Liste des utilisateurs (depuis le guide allemand)")
+![Liste des utilisateurs](images/Baïkal/users.png "Liste des utilisateurs (depuis le guide allemand)")
 
 Création d'un utilisateur
 
-![Création d'un utilisateur](images\Baïkal\user.png "Création d'un utilisateur (depuis le guide allemand)")
+![Création d'un utilisateur](images/Baïkal/user.png "Création d'un utilisateur (depuis le guide allemand)")
 
 > ATTENTION : Choisissez un [bon mot de passe](https://www.cybermalveillance.gouv.fr/medias/2019/11/Fiche-pratique_mots-de-passe.pdf)
 
@@ -305,32 +306,32 @@ Création d'un utilisateur
 
 Liste des utilisateurs
 
-![Liste des utilisateurs](images\Baïkal\users2.png "Liste des utilisateurs (depuis le guide allemand)")
+![Liste des utilisateurs](images/Baïkal/users2.png "Liste des utilisateurs (depuis le guide allemand)")
 
 Paramètres des carnets d'adresses (*Nom affiché du carnet et description*)
 
-![Carnet d'adresses](images\Baïkal\address_books.png "Carnet d'adresses (depuis le guide allemand)")
+![Carnet d'adresses](images/Baïkal/address_books.png "Carnet d'adresses (depuis le guide allemand)")
 
 Paramètres des calendriers (*Nom affiché du calendrier, couleur, description et options*)
 
-![Calendrier](images\Baïkal\calendars.png "Calendrier (depuis le guide allemand)")
+![Calendrier](images/Baïkal/calendars.png "Calendrier (depuis le guide allemand)")
 
 
-## C'est finit !
+### C'est finit !
 
 ### Connecter un client iOS
 
-![Etape 1](images\iOS\1.jpg "Etape 1")
+![Etape 1](images/iOS/1.jpg "Etape 1")
 
-![Etape 2](images\iOS\2.jpg "Etape 2")
+![Etape 2](images/iOS/2.jpg "Etape 2")
 
-![Etape 3](images\iOS\3.jpg "Etape 3")
+![Etape 3](images/iOS/3.jpg "Etape 3")
 
-![Etape 4](images\iOS\4.jpg "Etape 4")
+![Etape 4](images/iOS/4.jpg "Etape 4")
 
-![Etape 5](images\iOS\5.jpg "Etape 5")
+![Etape 5](images/iOS/5.jpg "Etape 5")
 
-![Etape 6](images\iOS\6.jpg "Etape 6")
+![Etape 6](images/iOS/6.jpg "Etape 6")
 
 > On utilise ici l'identifiant et le mot de passe d'un utilisateur créé dans [cette partie](#tout-est-prêt-!).
 
@@ -457,11 +458,11 @@ systemctl start apache2.service
 
 Il ne reste plus qu'à retourner sur la page d'administration `https://cal.domaine.fr/admin`
 
-![Mise à jour](images\Baïkal\upgrade.png "Mise à jour (depuis le guide allemand)")
+![Mise à jour](images/Baïkal/upgrade.png "Mise à jour (depuis le guide allemand)")
 
 Comme nous avons déjà fait une sauvegarde, il suffit de cliquer sur `Start Upgrade`. 
 
-![Fin de la mise à jour](images\Baïkal\upgrade2.png "Fin de la mise à jour (depuis le guide allemand)")
+![Fin de la mise à jour](images/Baïkal/upgrade2.png "Fin de la mise à jour (depuis le guide allemand)")
 
 On supprime les fichiers temporaires
 ```bash
@@ -504,7 +505,7 @@ systemctl start fail2ban
 
 Edition de `/etc/sysctl.conf`
 
-![Edition de /etc/sysctl.conf](images\Baïkal\sysctl.conf.png "Edition de /etc/sysctl.conf (depuis christitus.com/secure-web-server)")
+![Edition de /etc/sysctl.conf](images/Baïkal/sysctl.conf.png "Edition de /etc/sysctl.conf (depuis christitus.com/secure-web-server)")
 
 
 Prévenir l'usurpation d'adresse IP
@@ -519,3 +520,10 @@ Afficher la liste des ports en écoute
 ```bash
 netstat -tunlp
 ```
+
+## Questions et contributions
+N'hésitez pas à poser vos questions en soumettant une [issue](https://github.com/AlexandreMonroche/BaikalGuide/issues) ou une [pull request](https://github.com/AlexandreMonroche/BaikalGuide/pulls) !
+
+Toute contribution est également le bienvenue.
+
+**Enjoy !**
