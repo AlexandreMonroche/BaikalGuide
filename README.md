@@ -25,7 +25,7 @@
     - [Restauration](#restauration)
 - [Mise à jour de Baïkal](#mise-à-jour-de-baïkal)
 - [Sécurité](#améliorer-la-sécurité-du-serveur)
-- [Questions et contributions](questions-et-contributions)
+- [Questions et contributions](#questions-et-contributions)
 
 ---
 
@@ -422,7 +422,7 @@ gunzip baikal.sql.gz
 ```
 > Supposé dans le dossier courant
 
-Création de la base de donnée baikal, puis restauration des données.
+Création de la base de données `baikal`, puis restauration des données.
 ```bash
 mysql -e "CREATE DATABASE baikal";
 mysql baikal < baikal.sql
