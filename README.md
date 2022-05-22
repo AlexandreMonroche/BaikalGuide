@@ -79,6 +79,11 @@ Installation d'[Apache2](https://httpd.apache.org/)
 apt install apache2 -y
 ```
 
+#### Vérification
+Rendons nous sur `http://cal.domaine.fr/`, vous devriez voir la page par défault d'apache.
+
+![Apache2 default](images/Baïkal/apache2.jpg "Apache2 default")
+
 ### HTTPS
 Pour activer [HTTPS](https://fr.wikipedia.org/wiki/HyperText_Transfer_Protocol_Secure) sur votre site Web, vous devez obtenir un certificat (un type de fichier) auprès d'une autorité de certification (CA). Nous utiliserons [Let's Encrypt](https://letsencrypt.org/getting-started/) comme autorité de certification. Afin d'obtenir un certificat pour votre domaine auprès de Let's Encrypt, vous devez démontrer que vous contrôlez le domaine.
 
@@ -93,6 +98,18 @@ apt install certbot
 ```bash
 certbot certonly --standalone
 ```
+
+#### Test de renouvellement automatique
+```bash
+certbot renew --dry-run
+```
+
+#### Vérification
+Rendons nous sur `https://cal.domaine.fr/`, vous devriez voir une icone de cadenas dans la barre URL.
+
+![HTTPS](images/Baïkal/https.png "HTTPS")
+
+> Aide : [Certbot](https://certbot.eff.org/pages/help) ou [Let's Encrypt](https://community.letsencrypt.org/)
 
 ### Installer [PHP](https://www.php.net/) et les modules PHP
 ```bash
@@ -147,6 +164,8 @@ mysql_secure_installation
 
 > ATTENTION : Choisissez un [bon mot de passe](https://www.cybermalveillance.gouv.fr/medias/2019/11/Fiche-pratique_mots-de-passe.pdf)
 
+>  Aide : [mysql_secure_installation](https://mariadb.com/kb/en/mysql_secure_installation/)
+
 Connection au serveur mysql
 ```bash
 mysql -u root -p
@@ -172,7 +191,7 @@ FLUSH PRIVILEGES;
 ```bash
 nano /etc/apache2/sites-available/baikal.conf
 ```
-Contenu à coller :
+Exemple de configuration :
 ```conf
 <VirtualHost *:80>
 
@@ -239,7 +258,7 @@ Contenu à coller :
 
 Vous trouverez ce fichier de configuration ici => [conf/baikal.conf](conf/baikal.conf)
 
-Il ne vous reste plus qu'a remplacer (*CTRL+H*) les 4 occurences de `cal.domaine.fr` par votre nom de domaine.
+Il ne vous reste plus qu'a remplacer (*CTRL+H*) les 4 occurences de `cal.domaine.fr` par votre sous-domaine.
 
 #### Activer les modules nécessaires
 ```bash
@@ -334,14 +353,14 @@ Paramètres des calendriers (*Nom affiché du calendrier, couleur, description e
 
 ![Etape 6](images/iOS/6.jpg "Etape 6")
 
-> On utilise ici l'identifiant et le mot de passe d'un utilisateur créé dans [cette partie](#tout-est-prêt-!).
+> On utilise ici l'identifiant et le mot de passe d'un utilisateur créé dans [cette partie](#utilisation).
 
 ## Sauvegarde de la base de données
 
 ### Automatiquement
 Un script de sauvegarde automatisée se trouve ici : [scripts/sauvegarde.sh](scripts/sauvegarde.sh)
 
-Pour installer le script, il suffit de coller son contenu à cet emplacement `/usr/local/sbin/sql_backup_baikal.sh`
+Pour installer le script, il suffit de le placer à cet emplacement `/usr/local/sbin/`
 ```bash
 nano /usr/local/sbin/sql_backup_baikal.sh
 ```
@@ -362,7 +381,12 @@ Et saisir sur une ligne
 0 1 * * * root /usr/local/sbin/sql_backup_baikal.sh
 ```
 
-Cela permet d'exécuter le script et de sauvegarde la base de données tous les jours à 01:00 am.
+Cela permet d'exécuter le script et de sauvegarder la base de données tous les jours à 01:00 am.
+
+Pour tester le script :
+```bash
+/usr/local/sbin/sql_backup_baikal.sh
+```
 
 ### Manuellement
 
@@ -392,25 +416,16 @@ Passage en root
 ```bash
 sudo -i
 ```
-Arrêt du serveur web
-```bash
-systemctl stop apache2.service
-```
 Décompression du fichier de backup
 ```bash
 gunzip baikal.sql.gz
 ```
 > Supposé dans le dossier courant
 
-Restauration
+Création de la base de donnée baikal, puis restauration des données.
 ```bash
 mysql -e "CREATE DATABASE baikal";
 mysql baikal < baikal.sql
-```
-
-Démarrage du serveur web
-```bash
-systemctl start apache2.service
 ```
 
 ## Mise à jour de Baïkal
@@ -482,8 +497,6 @@ La mise à jour est terminé !
 
 La sécurité informatique est de votre responsabilité, les quelques notes ci-dessous vous donnent des outils pour améliorer la sécurité de votre serveur, il vous appartient cependant d'aller plus loin et de vous renseigner si vous le souhaitez.
 
-> Le **risque 0** n'existe pas, une compromission est toujours possible ! Bon courage ;)
-
 Installation de [ufw](https://launchpad.net/ufw/) et [fail2ban](http://www.fail2ban.org/wiki/index.php/Main_Page)
 ```bash
 apt install ufw fail2ban -y
@@ -525,6 +538,6 @@ netstat -tunlp
 ## Questions et contributions
 N'hésitez pas à poser vos questions en soumettant une [issue](https://github.com/AlexandreMonroche/BaikalGuide/issues) ou une [pull request](https://github.com/AlexandreMonroche/BaikalGuide/pulls) !
 
-Toute contribution est également le bienvenue.
+Toute contribution est également la bienvenue.
 
 **Enjoy !**
