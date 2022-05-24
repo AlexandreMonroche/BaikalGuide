@@ -91,7 +91,7 @@ Pour activer [HTTPS](https://fr.wikipedia.org/wiki/HyperText_Transfer_Protocol_S
 
 #### Installation de Certbot
 ```bash
-apt install certbot
+apt install certbot -y
 ```
 
 #### Génération d'un certificat
@@ -365,6 +365,8 @@ Pour installer le script, il suffit de le placer à cet emplacement `/usr/local/
 nano /usr/local/sbin/sql_backup_baikal.sh
 ```
 
+> CTRL+SHIFT+V pour coller, CTRL+O et Entrée pour sauvegarder le fichier et CTRL+X pour quitter nano
+
 D'en modifier les droits
 ```bash
 chmod 750 /usr/local/sbin/sql_backup_baikal.sh
@@ -388,6 +390,8 @@ Pour tester le script :
 /usr/local/sbin/sql_backup_baikal.sh
 ```
 
+Vérifiez la présence de la sauvegarde dans le dossier `/backup`
+
 ### Manuellement
 
 Passage en root
@@ -398,7 +402,7 @@ Arrêt du serveur web
 ```bash
 systemctl stop apache2.service
 ```
-Sauvegarde dans le dossier courant
+Sauvegarde de la base `baikal` dans le dossier courant
 ```bash
 mysqldump baikal | gzip > baikal.sql.gz
 ```
@@ -422,7 +426,7 @@ gunzip baikal.sql.gz
 ```
 > Supposé dans le dossier courant
 
-Création de la base de données `baikal`, puis restauration des données.
+Création de la base de données `baikal`, puis restauration des données dans la base
 ```bash
 mysql -e "CREATE DATABASE baikal";
 mysql baikal < baikal.sql
@@ -482,20 +486,20 @@ Comme nous avons déjà fait une sauvegarde, il suffit de cliquer sur `Start Upg
 
 On supprime les fichiers temporaires
 ```bash
-sudo rm -r /tmp/baikal*
+rm -r /tmp/baikal*
 ```
 
 Après avoir vérifié que la synchronisation est toujours en cours et que les entrées sont toujours là, on peut supprimer la sauvegarde du dossier
 
 ```bash
-sudo rm -r /backup/baikal.bak
+rm -r /backup/baikal.bak
 ```
 
 La mise à jour est terminé !
 
 ## Améliorer la sécurité du serveur
 
-La sécurité informatique est de votre responsabilité, les quelques notes ci-dessous vous donnent des outils pour améliorer la sécurité de votre serveur, il vous appartient cependant d'aller plus loin et de vous renseigner si vous le souhaitez.
+La sécurité informatique est de votre responsabilité, les quelques notes ci-dessous vous donnent des outils pour améliorer la sécurité de votre serveur, il vous appartient cependant de vous renseigner si vous souhaitez aller plus loin.
 
 Installation de [ufw](https://launchpad.net/ufw/) et [fail2ban](http://www.fail2ban.org/wiki/index.php/Main_Page)
 ```bash
@@ -510,6 +514,10 @@ ufw default deny incoming
 ufw default allow outgoing
 ufw enable
 ```
+
+> Attention à SSH, ne coupez pas la branche sur laquelle vous êtes 🍃
+
+> Exemple pour le port 22 : `ufw limit 22/tcp`
 
 Activer fail2ban
 ```bash
