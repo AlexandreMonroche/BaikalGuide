@@ -195,30 +195,8 @@ Exemple de configuration :
 ```conf
 <VirtualHost *:80>
 
-    DocumentRoot /srv/baikal/html
     ServerName cal.domaine.fr
-
-    RewriteEngine on
-    # Generally already set by global Apache configuration
-    # RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-    RewriteRule /.well-known/carddav /dav.php [R=308,L]
-    RewriteRule /.well-known/caldav  /dav.php [R=308,L]
-
-    <Directory "/srv/baikal/html">
-        Options None
-        # If you install cloning git repository, you may need the following
-        # Options +FollowSymlinks
-        AllowOverride None
-        # Configuration for apache-2.4:
-        Require all granted
-        # Configuration for apache-2.2:
-        # Order allow,deny
-        # Allow from all
-    </Directory>
-
-    <IfModule mod_expires.c>
-        ExpiresActive Off
-    </IfModule>
+    Redirect permanent / https://cal.domaine.fr/
     
 </VirtualHost>
 
@@ -442,18 +420,18 @@ Passage en root
 ```bash
 sudo -i
 ```
-Déplacement dans le dossier temporaire
-```bash
-cd /tmp
-```
 Arrêt du serveur web
 ```bash
 systemctl stop apache2.service
 ```
-Sauvegarde du dossier baikal
+Déplacement dans le dossier `/srv`
+```bash
+cd /srv
+```
+Déplacement (sauvegarde) du dossier `baikal` initial
 ```bash
 mkdir -p /backup
-cp -R /srv/baikal /backup/baikal.bak
+mv baikal /backup/baikal.bak
 ```
 Téléchargement de la nouvelle version
 ```bash
@@ -465,11 +443,16 @@ unzip baikal-0.9.2.zip
 ```
 Modification des droits
 ```bash
-chown -R www-data:www-data baikal
+chown -R www-data:www-data baikal/
 ```
-Copie des nouveaux fichiers sur les anciens. Utiliser `rsync` est important.
+Suppression des dossiers `config` et `Specific` de la nouvelle version
 ```bash
-rsync -avh baikal/ /srv/baikal
+rm -rf baikal/config baikal/Specific
+```
+Restauration des dossiers `config` et `Specific` à partir de la sauvegarde
+```bash
+cp -r /backup/baikal.bak/config baikal/
+cp -r /backup/baikal.bak/Specific baikal/
 ```
 Redémarrage du serveur web
 ```bash
@@ -484,15 +467,15 @@ Comme nous avons déjà fait une sauvegarde, il suffit de cliquer sur `Start Upg
 
 ![Fin de la mise à jour](images/Baïkal/upgrade2.png "Fin de la mise à jour (depuis le guide allemand)")
 
-On supprime les fichiers temporaires
+On supprime l'archive
 ```bash
-rm -r /tmp/baikal*
+rm -r /srv/baikal-0.9.2.zip
 ```
 
 Après avoir vérifié que la synchronisation est toujours en cours et que les entrées sont toujours là, on peut supprimer la sauvegarde du dossier
 
 ```bash
-rm -r /backup/baikal.bak
+rm -r /backup/baikal.bak/
 ```
 
 La mise à jour est terminé !
