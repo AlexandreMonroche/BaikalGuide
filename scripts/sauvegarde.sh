@@ -1,14 +1,17 @@
-#!/bin/bash
+#! /bin/bash
+#
+# Ce script sauvegarde la base de données baïkal
+#
 
-# Configuration de base: datestamp e.g. YYYYMMDD
+# Récupération de la date
 
 DATE="baikal-$(date +"%Y-%m-%d")"
 
-# Dossier où sauvegarder les backups (créez le d'abord!)
+# Dossier où sauvegarder les backups
 
 BACKUP_DIR="/backup"
 
-# Commandes MySQL (aucune raison de modifier ceci)
+# Commandes MySQL
 
 MYSQL=/usr/bin/mysql
 MYSQLDUMP=/usr/bin/mysqldump
@@ -17,12 +20,18 @@ MYSQLDUMP=/usr/bin/mysqldump
 
 SKIPDATABASES="Database|information_schema|performance_schema|mysql"
 
+# Service web
+WEBSERVICE="apache2.service"
+
 # Nombre de jours à garder les dossiers (seront effacés après X jours)
 
 RETENTION=14
 
 # ---- NE RIEN MODIFIER SOUS CETTE LIGNE ------------------------------------------
 #
+# Arrêt du serveur web
+systemctl stop $WEBSERVICE
+
 # Create a new directory into backup directory location for this date
 
 mkdir -p $BACKUP_DIR/$DATE
@@ -37,6 +46,9 @@ for db in $databases; do
 echo $db
 $MYSQLDUMP --force --opt --skip-lock-tables --events --databases $db | gzip > "$BACKUP_DIR/$DATE/$db.sql.gz"
 done
+
+# Démarrage du serveur web
+systemctl start $WEBSERVICE
 
 # Remove files older than X days
 
